@@ -1,0 +1,16 @@
+.resultCanvas{
+    border: 1px solid black;
+}
+
+#filterTable{
+    border-collapse: collapse;
+}
+
+#filterTable td{
+    border: 1px solid black;
+    padding: 16px;
+}
+
+#filterTable input{
+    width: 36px;
+}

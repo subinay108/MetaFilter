@@ -7,6 +7,45 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+    <input id="chooseFileBtn" type="file" accept="image/*" >
+    
+    <select id="chooseFilter">
+        <option value="-1">Choose Filter</option>
+        <option value="0">Sobel Left</option>
+        <option value="1">Sobel Right</option>
+        <option value="2">Prewitt Left</option>
+        <option value="3">Prewitt Right</option>
+        <option value="4">Laplacian Edge Detector</option>
+        <option value="5">Top Left Diagonal</option>
+        <option value="6">Bottom Right Diagonal</option>
+        <option value="7">Custom</option>
+    </select>
+    <button id="applyBtn">Apply</button>
+
+    <table style="display: none;" id="filterTable">
+        <tr>
+            <td><input type="number" value="0"></td>
+            <td><input type="number" value="0"></td>
+            <td><input type="number" value="0"></td>
+        </tr>
+        <tr>
+            <td><input type="number" value="0"></td>
+            <td><input type="number" value="1"></td>
+            <td><input type="number" value="0"></td>
+        </tr>
+        <tr>
+            <td><input type="number" value="0"></td>
+            <td><input type="number" value="0"></td>
+            <td><input type="number" value="0"></td>
+        </tr>
+        
+    </table>
+    
+    <canvas  id="hiddenCanvas"></canvas>
+
+    <canvas class="resultCanvas" id="resultCanvas" 
+    width="360" height="360"></canvas>
+
     <script src="script.js"></script>
 </body>
 </html>
