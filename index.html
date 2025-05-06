@@ -7,46 +7,58 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <input id="chooseFileBtn" type="file" accept="image/*" >
+    <div class="container">
+        <h1>MetaFilter</h1>
+        <div class="reswrap">
+            <div class="left">
+                <input id="chooseFileBtn" type="file" accept="image/*" >
+            
+                <div style="margin-bottom: 12px;">
+                    <select id="chooseFilter">
+                        <option value="">Choose Filter</option>
+                        <option value="sobel-left">Sobel Left</option>
+                        <option value="sobel-right">Sobel Right</option>
+                        <option value="prewitt-left">Prewitt Left</option>
+                        <option value="prewitt-right">Prewitt Right</option>
+                        <option value="laplacian-edge">Laplacian Edge Detector</option>
+                        <option value="top-left-diagonal">Top Left Diagonal</option>
+                        <option value="bottom-right-diagonal">Bottom Right Diagonal</option>
+                        <option value="blur">Blur</option>
+                        <option value="sharpen">Sharpen</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <button id="applyBtn">Apply</button>
+                </div>
+            
+                <table id="filterTable">
+                    <tr>
+                        <td><input type="number" value="0"></td>
+                        <td><input type="number" value="0"></td>
+                        <td><input type="number" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" value="0"></td>
+                        <td><input type="number" value="1"></td>
+                        <td><input type="number" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="number" value="0"></td>
+                        <td><input type="number" value="0"></td>
+                        <td><input type="number" value="0"></td>
+                    </tr>
+                </table>
+                
+            </div>
     
-    <select id="chooseFilter">
-        <option value="">Choose Filter</option>
-        <option value="sobel-left">Sobel Left</option>
-        <option value="sobel-right">Sobel Right</option>
-        <option value="prewitt-left">Prewitt Left</option>
-        <option value="prewitt-right">Prewitt Right</option>
-        <option value="laplacian-edge">Laplacian Edge Detector</option>
-        <option value="top-left-diagonal">Top Left Diagonal</option>
-        <option value="bottom-right-diagonal">Bottom Right Diagonal</option>
-        <option value="blur">Blur</option>
-        <option value="sharpen">Sharpen</option>
-        <option value="custom">Custom</option>
-    </select>
-    <button id="applyBtn">Apply</button>
-
-    <table id="filterTable">
-        <tr>
-            <td><input type="number" value="0"></td>
-            <td><input type="number" value="0"></td>
-            <td><input type="number" value="0"></td>
-        </tr>
-        <tr>
-            <td><input type="number" value="0"></td>
-            <td><input type="number" value="1"></td>
-            <td><input type="number" value="0"></td>
-        </tr>
-        <tr>
-            <td><input type="number" value="0"></td>
-            <td><input type="number" value="0"></td>
-            <td><input type="number" value="0"></td>
-        </tr>
-    </table>
-    
-    <canvas  id="hiddenCanvas"></canvas>
-
-    <canvas class="resultCanvas" id="resultCanvas" 
-    width="360" height="360"></canvas>
-
+            <div class="right">
+                <canvas  id="hiddenCanvas"></canvas>
+            
+                <canvas class="resultCanvas" id="resultCanvas" 
+                width="360" height="360"></canvas>
+            </div>    
+        </div>
+        <p>Made with ❤ by <a href="https://github.com/subinay108/MetaFilter" target="_blank">Subinay Panda</a></p>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
