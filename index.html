@@ -10,19 +10,21 @@
     <input id="chooseFileBtn" type="file" accept="image/*" >
     
     <select id="chooseFilter">
-        <option value="-1">Choose Filter</option>
-        <option value="0">Sobel Left</option>
-        <option value="1">Sobel Right</option>
-        <option value="2">Prewitt Left</option>
-        <option value="3">Prewitt Right</option>
-        <option value="4">Laplacian Edge Detector</option>
-        <option value="5">Top Left Diagonal</option>
-        <option value="6">Bottom Right Diagonal</option>
-        <option value="7">Custom</option>
+        <option value="">Choose Filter</option>
+        <option value="sobel-left">Sobel Left</option>
+        <option value="sobel-right">Sobel Right</option>
+        <option value="prewitt-left">Prewitt Left</option>
+        <option value="prewitt-right">Prewitt Right</option>
+        <option value="laplacian-edge">Laplacian Edge Detector</option>
+        <option value="top-left-diagonal">Top Left Diagonal</option>
+        <option value="bottom-right-diagonal">Bottom Right Diagonal</option>
+        <option value="blur">Blur</option>
+        <option value="sharpen">Sharpen</option>
+        <option value="custom">Custom</option>
     </select>
     <button id="applyBtn">Apply</button>
 
-    <table style="display: none;" id="filterTable">
+    <table id="filterTable">
         <tr>
             <td><input type="number" value="0"></td>
             <td><input type="number" value="0"></td>
@@ -38,7 +40,6 @@
             <td><input type="number" value="0"></td>
             <td><input type="number" value="0"></td>
         </tr>
-        
     </table>
     
     <canvas  id="hiddenCanvas"></canvas>

@@ -8,7 +8,7 @@ const imgSize = 360;
 
 hiddenCanvas.style.display = 'none';
 
-const resultImageData = new ImageData(imgSize, imgSize);
+const actualImageData = new ImageData(imgSize, imgSize);
 
 const FILTER = {
     'sobel-left': [
@@ -32,9 +32,9 @@ const FILTER = {
         [-1, 0, 1]
     ],
     'laplacian-edge': [
-        [0, -1, 0],
-        [-1, 4, -1],
-        [0, -1, 0]
+        [0, 1, 0],
+        [1, -4, 1],
+        [0, 1, 0]
     ],
     'top-left-diagonal': [
         [1, 1, 0],
@@ -46,6 +46,16 @@ const FILTER = {
         [-1, 0, 1],
         [0, 1, 1]
     ],
+    'blur': [
+        [0.0625, 0.125, 0.0625],
+        [0.125, 0.25, 0.125],
+        [0.0625, 0.125, 0.0625]
+    ],
+    'sharpen': [
+        [0, -1, 0],
+        [-1, 5, -1],
+        [0, -1, 0]
+    ],
     'custom': [
         [0, 0, 0],
         [0, 1, 0],
@@ -55,34 +65,38 @@ const FILTER = {
 }
 
 const applyBtn = document.getElementById('applyBtn');
-applyBtn.addEventListener('click', (e)=> {
-    const chooseFilter = document.getElementById('chooseFilter');
-    // 0 -> sobel left, 1-> sobel right, 2-> Laplacian Edge Detector
-    let filter;
-    if(chooseFilter.value === '0'){
-        filter = FILTER['sobel-left'];
-    }else if(chooseFilter.value === '1'){
-        filter = FILTER['sobel-right'];
-    }else if(chooseFilter.value === '2'){
-        filter = FILTER['prewitt-left'];
-    }else if(chooseFilter.value === '3'){
-        filter = FILTER['prewitt-right'];
-    }else if(chooseFilter.value === '4'){
-        filter = FILTER['laplacian-edge'];
-    }else if(chooseFilter.value === '5'){
-        filter = FILTER['top-left-diagonal'];
-    }else if(chooseFilter.value === '6'){
-        filter = FILTER['bottom-right-diagonal'];
-    }else if(chooseFilter.value === '7'){
-        filter = FILTER['custom'];
+const chooseFilter = document.getElementById('chooseFilter');
+chooseFilter.addEventListener('change', function(e){
+    let filter = [];
+    if(chooseFilter.value !== ''){
+        filter = FILTER[chooseFilter.value];
     }
 
-    applyFilter(resultImageData, filter);
-    ctx.putImageData(resultImageData, 0, 0);
+    const filterTable = document.getElementById('filterTable');
+    const inputArr = filterTable.getElementsByTagName('input');
+    for(let i = 0; i < inputArr.length; i++){
+        inputArr[i].value = filter[parseInt(i / 3)][i % 3];
+    }
+
+});
+applyBtn.addEventListener('click', (e)=> {
+    // 0 -> sobel left, 1-> sobel right, 2-> Laplacian Edge Detector
+    let filter = [Array(3).fill(0), Array(3).fill(0), Array(3).fill(0)];
+
+    const filterTable = document.getElementById('filterTable');
+    const inputArr = filterTable.getElementsByTagName('input');
+    for(let i = 0; i < inputArr.length; i++){
+        filter[parseInt(i / 3)][i % 3] = Number(inputArr[i].value);
+    }
+
+    if(actualImageData){
+        const resultImageData = applyFilter(actualImageData, filter);
+        ctx.putImageData(resultImageData, 0, 0);
+    }
 
 })
 
-chooseFileBtn.addEventListener('input', (e) => {
+chooseFileBtn.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if(!file) return;
 
@@ -104,14 +118,14 @@ chooseFileBtn.addEventListener('input', (e) => {
         let arrSize = imgSize * imgSize * 4;
 
         for(let i = 0; i < arrSize; i++){
-            resultImageData.data[i] = imageData.data[i];
+            actualImageData.data[i] = imageData.data[i];
         }
         
         // console.log('ImageData:', imageData);
-        convertToGrayscale(resultImageData);
+        convertToGrayscale(actualImageData);
 
         // Draw grayscale image on result canvas
-        ctx.putImageData(resultImageData, 0, 0);
+        ctx.putImageData(actualImageData, 0, 0);
 
     };
 
@@ -149,10 +163,9 @@ function applyFilter(imageData, filter){
     const width = imageData.width;
     const height = imageData.height;
     const tempWidth = width + 2 * padding;
-    const tempHeight = height + 2 * padding;
-    // const tempImage = new ImageData(tempWidth, tempHeight);
-    const size = width * height * 4;
-    const tempSize = tempWidth * tempHeight * 4;
+
+    // Creat the resultImageData
+    const resultImageData = new ImageData(width, height);
 
     const imageMatrix = [];
     for(let y = 0; y < height; y++){
@@ -195,10 +208,12 @@ function applyFilter(imageData, filter){
     for(let y = 0; y < height; y++){
         for(let x = 0; x < width; x++){
             const index = (y * width + x) * 4;
-            imageData.data[index] = imageMatrix[y][x];
-            imageData.data[index + 1] = imageMatrix[y][x];
-            imageData.data[index + 2] = imageMatrix[y][x];
+            resultImageData.data[index] = imageMatrix[y][x];
+            resultImageData.data[index + 1] = imageMatrix[y][x];
+            resultImageData.data[index + 2] = imageMatrix[y][x];
+            resultImageData.data[index + 3] = 255;
         }
     }
 
+    return resultImageData;
 }
